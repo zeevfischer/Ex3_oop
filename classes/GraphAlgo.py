@@ -10,6 +10,9 @@ from src.GraphAlgoInterface import GraphAlgoInterface
 
 
 class GraphAlgo(GraphAlgoInterface):
+    def __init__(self):
+        self.graph=DiGraph()
+
     def __init__(self,g: DiGraph()):
         self.graph = g
 
@@ -104,24 +107,24 @@ class GraphAlgo(GraphAlgoInterface):
         plt.show()
 
     def dikjestra(self, src: int) -> (list, list):
-        visited = {v: False for v in (self.graph.Nodes.values())}
+
+        visited = {v.get_key(): False for v in (self.graph.Nodes.values())}
         DistanceDist = {v.get_key(): float('inf') for v in (self.graph.Nodes.values())}
         DistanceDist[src] = 0
         DistancePath = {path.get_key(): "" for path in (self.graph.Nodes.values())}
         DistancePath[src] += str(src)
         pq = PriorityQueue()
-        pq.put((0, src))
+        pq.put((0,src))
         while not pq.empty():
             (dist, current_vertex) = pq.get()
             visited[self.graph.Nodes[current_vertex]] = True
             cur = self.graph.Nodes[current_vertex]
             for neighbor in cur.get_out():
-                key=str(src) + "," + str(neighbor)
+                key = str(cur.get_key()) + "," + str(neighbor)
                 if not self.graph.Edges.keys().__contains__(key):
                     continue
                 distance = self.graph.Edges[key].getWeight()
-                if not visited[self.graph.Nodes[neighbor]]:
-                    if neighbor not in visited:
+                if not visited[neighbor]:
                         new_path = DistancePath[current_vertex]
                         new_path += "," +str(neighbor)
                         old_cost = DistanceDist[neighbor]
@@ -132,11 +135,8 @@ class GraphAlgo(GraphAlgoInterface):
                             DistancePath[neighbor] = new_path
         return DistanceDist, DistancePath
 
-
-
-
 if __name__ == '__main__':
-    ga = graphAlgo()
+    ga = GraphAlgo()
     ga.load_from_json("C:\\Users\\Liavm\\Desktop\\Ex3\\data\\A5.json")
     (dist,path)=ga.dikjestra(0)
     print(path[2])
