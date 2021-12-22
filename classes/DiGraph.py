@@ -1,13 +1,15 @@
 from src.GraphInterface import GraphInterface
 from classes.Node import Node
 from classes.Edge import Edge
+
+
 class DiGraph(GraphInterface):
     def __init__(self):
         # id = int ,value = Node/class
         self.Nodes={}
         # id = "src,dest" , value Edge/class
         self.Edges={}
-        self.mc =0
+        self.mc = 0
 
     def v_size(self) -> int:
         return len(self.Nodes)
@@ -23,7 +25,8 @@ class DiGraph(GraphInterface):
         dict = {}
         node = Node(self.Nodes.get(id1))
         for Key in node.into:
-            edge = Edge(self.Edges.get(""+Key+","+id1+""))
+            tempKey = str(Key) + "," + str(id1)
+            edge = Edge(self.Edges.get(tempKey))
             dict[Key] = edge.weight
 
         return dict
@@ -35,7 +38,8 @@ class DiGraph(GraphInterface):
         dict = {}
         node = Node(self.Nodes.get(id1))
         for Key in node.out:
-            edge = Edge(self.Edges.get(""+id1+","+Key+""))
+            tempKey = str(id1)+","+str(Key)
+            edge = Edge(self.Edges.get(tempKey))
             dict[Key] = edge.weight
 
         return dict
@@ -47,12 +51,13 @@ class DiGraph(GraphInterface):
         return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
-        if self.Edges.get(""+id1+","+id2+"") == None and self.Nodes.get(id1) != None and self.Nodes.get(id2) != None:
+        key = str(id1)+","+str(id2)
+        if self.Edges.get(key) == None and self.Nodes.get(id1) != None and self.Nodes.get(id2) != None:
             # this will add to Edges
-            self.Edges[""+id1+","+id2+""] = Edge(id1,id2,weight)
+            self.Edges[key] = Edge(id1,id2,weight)
             # this will add to the lists "into" and "out" of id1 and id2
-            Node(self.Nodes.get(id1)).out.append(id2)
-            Node(self.Nodes.get(id2)).into.append(id1)
+            self.Nodes.get(id1).out.append(id2)
+            self.Nodes.get(id2).into.append(id1)
             self.mc += 1
             return True
 
@@ -91,13 +96,15 @@ class DiGraph(GraphInterface):
             # now we deall with the Edge
             for key in node_removed.into:
                 # this removes all the Edges connected to that Node
-                self.Edges.pop(""+key+","+node_id+"")
+                tempKey = str(key) + "," + str(node_id)
+                self.Edges.pop(tempKey)
                 # this will remove node_id from list out of Node Key
                 Node(self.Nodes.get(key)).out.remove(node_id)
 
             for key in node_removed.out:
                 # this removes all the Edges connected to that Node
-                self.Edges.pop(""+node_id+","+key+"")
+                tempKey = str(node_id) + "," + str(key)
+                self.Edges.pop(tempKey)
                 # this will remove node_id from list into of Node Key
                 Node(self.Nodes.get(key)).into.remove(node_id)
 
@@ -113,10 +120,11 @@ class DiGraph(GraphInterface):
         """
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
-        if self.Edges.get(""+node_id1+","+node_id2+"") != None:
+        tempKey = str(node_id1) + "," + str(node_id2)
+        if self.Edges.get(tempKey) != None:
             Node(self.Nodes.get(node_id1)).out.remove(node_id2)
             Node(self.Nodes.get(node_id2)).into.remove(node_id1)
-            self.Edges.pop(""+node_id1+","+node_id2+"")
+            self.Edges.pop(tempKey)
             return True
         else:
             return False
