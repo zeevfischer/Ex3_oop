@@ -66,10 +66,10 @@ class graphAlgo(GraphAlgoInterface):
 
     def dikjestra(self, src: int) -> (list, list):
         visited = {v: False for v in (self.graph.Nodes.values())}
-        DistanceDist = {v: float('inf') for v in (self.graph.Nodes.values())}
+        DistanceDist = {v.get_key(): float('inf') for v in (self.graph.Nodes.values())}
         DistanceDist[src] = 0
-        DistancePath = {path: "" for path in (self.graph.Nodes.values())}
-        DistancePath[self.graph.Nodes[src]] += str(src)
+        DistancePath = {path.get_key(): "" for path in (self.graph.Nodes.values())}
+        DistancePath[src] += str(src)
         pq = PriorityQueue()
         pq.put((0, src))
         while not pq.empty():
@@ -77,13 +77,16 @@ class graphAlgo(GraphAlgoInterface):
             visited[self.graph.Nodes[current_vertex]] = True
             cur = self.graph.Nodes[current_vertex]
             for neighbor in cur.get_out():
-                distance = self.graph.Edges[str(src) + "," + str(neighbor)].getWeight()
+                key=str(src) + "," + str(neighbor)
+                if not self.graph.Edges.keys().__contains__(key):
+                    continue
+                distance = self.graph.Edges[key].getWeight()
                 if not visited[self.graph.Nodes[neighbor]]:
                     if neighbor not in visited:
-                        new_path = DistancePath[self.graph.Nodes[current_vertex]]
-                        new_path+=str(neighbor)
-                        old_cost = DistanceDist[self.graph.Nodes[neighbor]]
-                        new_cost = DistanceDist[self.graph.Nodes[current_vertex]] + distance
+                        new_path = DistancePath[current_vertex]
+                        new_path += "," +str(neighbor)
+                        old_cost = DistanceDist[neighbor]
+                        new_cost = DistanceDist[current_vertex] + distance
                         if new_cost < old_cost:
                             pq.put((new_cost, neighbor))
                             DistanceDist[neighbor] = new_cost
@@ -96,7 +99,7 @@ class graphAlgo(GraphAlgoInterface):
 
 if __name__ == '__main__':
     ga = graphAlgo()
-    ga.load_from_json("C:\\Users\\Liavm\\Desktop\\Ex3\\data\\A0.json")
+    ga.load_from_json("C:\\Users\\Liavm\\Desktop\\Ex3\\data\\A5.json")
     (dist,path)=ga.dikjestra(0)
-    print(dist)
+    print(path[2])
     ga.save_to_json("C:\\Users\\Liavm\\Desktop\\Ex3\\data\\out.json")

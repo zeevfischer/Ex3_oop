@@ -3,8 +3,8 @@ class Node:
     def __init__(self,id , pos: tuple) -> None:
         #x,y,z = pos
         #self.pos = Location(x,y,z)
-        self.pos=Location(pos)
-        self.id =id
+        self.pos = Location(pos)
+        self.id = id
 
         self.weight = -1
         self.tag = 0
