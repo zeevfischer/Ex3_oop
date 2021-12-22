@@ -1,19 +1,26 @@
 import json
 from queue import PriorityQueue
 
-from DiGraph import DiGraph
-from classes import Node
-from classes import Edge
+from classes.DiGraph import DiGraph
+from classes.Edge import Edge
+from classes.Node import Node
+from classes.Location import Location
+import matplotlib.pyplot as plt
 from src.GraphAlgoInterface import GraphAlgoInterface
 
 
-class graphAlgo(GraphAlgoInterface):
-    def __init__(self):
-        self.graph = DiGraph()
+class GraphAlgo(GraphAlgoInterface):
+    def __init__(self,g: DiGraph()):
+        self.graph = g
 
     #
     # def __init__(self, g: DiGraph):
     #     self.graph = g
+
+    # def get_graph(self) -> GraphInterface:
+    #     """
+    #     :return: the directed graph on which the algorithm works on.
+    #     """
 
     def load_from_json(self, file_name: str) -> bool:
         try:
@@ -64,6 +71,38 @@ class graphAlgo(GraphAlgoInterface):
         (dist, path) = self.dikjestra(id1)
         return (dist[id2], dist[id2])
 
+    # def TSP(self, node_lst: List[int]) -> (List[int], float):
+    #     """
+    #     Finds the shortest path that visits all the nodes in the list
+    #     :param node_lst: A list of nodes id's
+    #     :return: A list of the nodes id's in the path, and the overall distance
+    #     """
+
+    # def centerPoint(self) -> (int, float):
+    #     """
+    #     Finds the node that has the shortest distance to it's farthest node.
+    #     :return: The nodes id, min-maximum distance
+    #     """
+
+    def plot_graph(self) -> None:
+        for v in self.graph.Nodes.values():
+            pos = v.pos.getpos()
+            x, y = pos[0] , pos[1]
+            print(x, y)
+            plt.plot(x, y, markersize=4, marker='o', color='blue')
+            plt.text(x, y, str(v.id), color="red", fontsize=12)
+        for E in self.graph.Edges.values():
+            src = self.graph.Nodes.get(Edge(E).src)
+            x_src = Node(src).pos['x']
+            y_src = Node(src).pos['y']
+
+            dest = self.graph.Nodes.get(Edge(E).dest)
+            x_dest = Node(dest).pos.getpos()
+            y_dest = Node(dest).pos['y']
+            plt.annotate("", xy=(x_src, y_src), xytext=(x_dest, y_dest), arrowprops=dict(arrowstyle="<-"))
+
+        plt.show()
+
     def dikjestra(self, src: int) -> (list, list):
         visited = {v: False for v in (self.graph.Nodes.values())}
         DistanceDist = {v.get_key(): float('inf') for v in (self.graph.Nodes.values())}
@@ -93,8 +132,7 @@ class graphAlgo(GraphAlgoInterface):
                             DistancePath[neighbor] = new_path
         return DistanceDist, DistancePath
 
-    def plot_graph(self) -> None:
-        pass
+
 
 
 if __name__ == '__main__':

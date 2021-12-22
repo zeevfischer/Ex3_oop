@@ -1,4 +1,4 @@
-from Location import Location
+from classes.Location import Location
 class Node:
     def __init__(self,id , pos: tuple) -> None:
         #x,y,z = pos

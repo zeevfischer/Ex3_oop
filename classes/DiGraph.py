@@ -1,3 +1,5 @@
+import random
+
 from src.GraphInterface import GraphInterface
 from classes.Node import Node
 from classes.Edge import Edge
@@ -23,7 +25,7 @@ class DiGraph(GraphInterface):
     # while running over the list i take the Node nedded and add it to my dict
     def all_in_edges_of_node(self, id1: int) -> dict:
         dict = {}
-        node = Node(self.Nodes.get(id1))
+        node = self.Nodes.get(id1)
         for Key in node.into:
             tempKey = str(Key) + "," + str(id1)
             edge = Edge(self.Edges.get(tempKey))
@@ -36,7 +38,7 @@ class DiGraph(GraphInterface):
 
     def all_out_edges_of_node(self, id1: int) -> dict:
         dict = {}
-        node = Node(self.Nodes.get(id1))
+        node = self.Nodes.get(id1)
         for Key in node.out:
             tempKey = str(id1)+","+str(Key)
             edge = Edge(self.Edges.get(tempKey))
@@ -71,9 +73,12 @@ class DiGraph(GraphInterface):
         @return: True if the edge was added successfully, False o.w.
         Note: If the edge already exists or one of the nodes dose not exists the functions will do nothing
         """
-
+    import random
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if self.Nodes.get(node_id) == None:
+            if(pos == None):
+                num = random.randint(1,10)
+                pos=(num,num,num)
             self.Nodes[node_id] = Node(node_id , pos)
             self.mc += 1
             return True
@@ -122,8 +127,8 @@ class DiGraph(GraphInterface):
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
         tempKey = str(node_id1) + "," + str(node_id2)
         if self.Edges.get(tempKey) != None:
-            Node(self.Nodes.get(node_id1)).out.remove(node_id2)
-            Node(self.Nodes.get(node_id2)).into.remove(node_id1)
+            self.Nodes.get(node_id1).out.remove(node_id2)
+            self.Nodes.get(node_id2).into.remove(node_id1)
             self.Edges.pop(tempKey)
             return True
         else:
