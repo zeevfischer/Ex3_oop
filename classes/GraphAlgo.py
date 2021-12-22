@@ -5,7 +5,7 @@ from classes.DiGraph import DiGraph
 from classes.Edge import Edge
 from classes.Node import Node
 from classes.Location import Location
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from src.GraphAlgoInterface import GraphAlgoInterface
 
 
@@ -81,30 +81,43 @@ class GraphAlgo(GraphAlgoInterface):
     #     :return: A list of the nodes id's in the path, and the overall distance
     #     """
 
-    # def centerPoint(self) -> (int, float):
-    #     """
-    #     Finds the node that has the shortest distance to it's farthest node.
-    #     :return: The nodes id, min-maximum distance
-    #     """
-
-    def plot_graph(self) -> None:
+    def centerPoint(self) -> (int, float):
+        """
+        Finds the node that has the shortest distance to it's farthest node.
+        :return: The nodes id, min-maximum distance
+        """
+        maxDist={}
+        maxSize='inf'
+        maxId=-1
         for v in self.graph.Nodes.values():
-            pos = v.pos.getpos()
-            x, y = pos[0] , pos[1]
-            print(x, y)
-            plt.plot(x, y, markersize=4, marker='o', color='blue')
-            plt.text(x, y, str(v.id), color="red", fontsize=12)
-        for E in self.graph.Edges.values():
-            src = self.graph.Nodes.get(Edge(E).src)
-            x_src = Node(src).pos['x']
-            y_src = Node(src).pos['y']
+            (dist,path)=self.dikjestra(v)
+            check=max(dist,key=lambda x:float (x))
+            if check<maxSize:
+                maxId=v.get_key
+                maxSize=check
+        return (maxId,maxSize)
 
-            dest = self.graph.Nodes.get(Edge(E).dest)
-            x_dest = Node(dest).pos.getpos()
-            y_dest = Node(dest).pos['y']
-            plt.annotate("", xy=(x_src, y_src), xytext=(x_dest, y_dest), arrowprops=dict(arrowstyle="<-"))
 
-        plt.show()
+
+
+    # def plot_graph(self) -> None:
+    #     for v in self.graph.Nodes.values():
+    #         pos = v.pos.getpos()
+    #         x, y = pos[0] , pos[1]
+    #         print(x, y)
+    #         plt.plot(x, y, markersize=4, marker='o', color='blue')
+    #         plt.text(x, y, str(v.id), color="red", fontsize=12)
+    #     for E in self.graph.Edges.values():
+    #         src = self.graph.Nodes.get(Edge(E).src)
+    #         x_src = Node(src).pos['x']
+    #         y_src = Node(src).pos['y']
+    #
+    #         dest = self.graph.Nodes.get(Edge(E).dest)
+    #         x_dest = Node(dest).pos.getpos()
+    #         y_dest = Node(dest).pos['y']
+    #         plt.annotate("", xy=(x_src, y_src), xytext=(x_dest, y_dest), arrowprops=dict(arrowstyle="<-"))
+    #
+    #     plt.show()
 
     def dikjestra(self, src: int) -> (list, list):
 
