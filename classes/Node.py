@@ -1,9 +1,10 @@
 from Location import Location
 class Node:
     def __init__(self,id , pos: tuple) -> None:
-        x,y,z = pos
-        self.pos = Location(x,y,z)
-        self.id =id
+        #x,y,z = pos
+        #self.pos = Location(x,y,z)
+        self.pos = Location(pos)
+        self.id = id
 
         self.weight = -1
         self.tag = 0
@@ -22,4 +23,7 @@ class Node:
 
     def get_out(self):
          return self.out
-
+    def get_key(self):
+        return self.id
+    def get_pos(self):
+        return self.pos
