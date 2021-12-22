@@ -1,13 +1,15 @@
 from src.GraphInterface import GraphInterface
 from classes.Node import Node
 from classes.Edge import Edge
+
+
 class DiGraph(GraphInterface):
     def __init__(self):
         # id = int ,value = Node/class
         self.Nodes={}
         # id = "src,dest" , value Edge/class
         self.Edges={}
-        self.mc =0
+        self.mc = 0
 
     def v_size(self) -> int:
         return len(self.Nodes)
@@ -47,12 +49,13 @@ class DiGraph(GraphInterface):
         return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
-        if self.Edges.get(""+id1+","+id2+"") == None and self.Nodes.get(id1) != None and self.Nodes.get(id2) != None:
+        key = str(id1)+","+str(id2)
+        if self.Edges.get(key) == None and self.Nodes.get(id1) != None and self.Nodes.get(id2) != None:
             # this will add to Edges
-            self.Edges[""+id1+","+id2+""] = Edge(id1,id2,weight)
+            self.Edges[key] = Edge(id1,id2,weight)
             # this will add to the lists "into" and "out" of id1 and id2
-            Node(self.Nodes.get(id1)).out.append(id2)
-            Node(self.Nodes.get(id2)).into.append(id1)
+            self.Nodes.get(id1).out.append(id2)
+            self.Nodes.get(id2).into.append(id1)
             self.mc += 1
             return True
 
