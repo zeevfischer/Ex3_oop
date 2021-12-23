@@ -32,7 +32,10 @@ class GraphAlgo(GraphAlgoInterface):
             g = DiGraph()
             nodes = data["Nodes"]
             for v in nodes:
-                g.add_node(v["id"], v["pos"])
+                if dict(v).keys().__contains__('pos'):
+                    g.add_node(v["id"], v["pos"])
+                else:
+                    g.add_node(v["id"], None)
             edges = data["Edges"]
             for e in edges:
                 g.add_edge(e["src"], e["dest"], e["w"])
@@ -72,7 +75,7 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         (dist, path) = self.dikjestra(id1)
-        return (dist[id2], dist[id2])
+        return (dist[id2], path[id2])
 
     # def TSP(self, node_lst: List[int]) -> (List[int], float):
     #     """
@@ -87,13 +90,13 @@ class GraphAlgo(GraphAlgoInterface):
         :return: The nodes id, min-maximum distance
         """
         maxDist = {}
-        maxSize = 'inf'
+        maxSize = float('inf')
         maxId = -1
         for v in self.graph.Nodes.values():
-            (dist, path) = self.dikjestra(v)
+            (dist, path) = self.dikjestra(v.get_key())
             check = max(dist, key=lambda x: float(x))
             if check < maxSize:
-                maxId = v.get_key
+                maxId = v.get_key()
                 maxSize = check
         return (maxId, maxSize)
 
@@ -135,7 +138,7 @@ class GraphAlgo(GraphAlgoInterface):
                 distance = self.graph.Edges[key].getWeight()
                 if not visited[neighbor]:
                     new_path = DistancePath[current_vertex]
-                    new_path += "," + str(neighbor)
+                    new_path += "->" + str(neighbor)
                     old_cost = DistanceDist[neighbor]
                     new_cost = DistanceDist[current_vertex] + distance
                     if new_cost < old_cost:

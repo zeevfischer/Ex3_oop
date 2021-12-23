@@ -20,7 +20,7 @@ class DiGraph(GraphInterface):
         return len(self.Edges)
 
     def get_all_v(self) -> dict:
-        return self.Nodes
+        return self.Nodes.keys()
     # for evey Node there is a list of Nodes comming in and out of it
     # while running over the list i take the Node nedded and add it to my dict
     def all_in_edges_of_node(self, id1: int) -> dict:
