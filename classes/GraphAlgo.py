@@ -11,9 +11,9 @@ from src.GraphAlgoInterface import GraphAlgoInterface
 
 class GraphAlgo(GraphAlgoInterface):
     def __init__(self):
-        self.graph=DiGraph()
+        self.graph = DiGraph()
 
-    def __init__(self,g: DiGraph()):
+    def __init__(self, g: DiGraph()):
         self.graph = g
 
     #
@@ -86,19 +86,16 @@ class GraphAlgo(GraphAlgoInterface):
         Finds the node that has the shortest distance to it's farthest node.
         :return: The nodes id, min-maximum distance
         """
-        maxDist={}
-        maxSize='inf'
-        maxId=-1
+        maxDist = {}
+        maxSize = 'inf'
+        maxId = -1
         for v in self.graph.Nodes.values():
-            (dist,path)=self.dikjestra(v)
-            check=max(dist,key=lambda x:float (x))
-            if check<maxSize:
-                maxId=v.get_key
-                maxSize=check
-        return (maxId,maxSize)
-
-
-
+            (dist, path) = self.dikjestra(v)
+            check = max(dist, key=lambda x: float(x))
+            if check < maxSize:
+                maxId = v.get_key
+                maxSize = check
+        return (maxId, maxSize)
 
     # def plot_graph(self) -> None:
     #     for v in self.graph.Nodes.values():
@@ -120,14 +117,13 @@ class GraphAlgo(GraphAlgoInterface):
     #     plt.show()
 
     def dikjestra(self, src: int) -> (list, list):
-
         visited = {v.get_key(): False for v in (self.graph.Nodes.values())}
         DistanceDist = {v.get_key(): float('inf') for v in (self.graph.Nodes.values())}
         DistanceDist[src] = 0
         DistancePath = {path.get_key(): "" for path in (self.graph.Nodes.values())}
         DistancePath[src] += str(src)
         pq = PriorityQueue()
-        pq.put((0,src))
+        pq.put((0, src))
         while not pq.empty():
             (dist, current_vertex) = pq.get()
             visited[self.graph.Nodes[current_vertex]] = True
@@ -138,19 +134,20 @@ class GraphAlgo(GraphAlgoInterface):
                     continue
                 distance = self.graph.Edges[key].getWeight()
                 if not visited[neighbor]:
-                        new_path = DistancePath[current_vertex]
-                        new_path += "," +str(neighbor)
-                        old_cost = DistanceDist[neighbor]
-                        new_cost = DistanceDist[current_vertex] + distance
-                        if new_cost < old_cost:
-                            pq.put((new_cost, neighbor))
-                            DistanceDist[neighbor] = new_cost
-                            DistancePath[neighbor] = new_path
+                    new_path = DistancePath[current_vertex]
+                    new_path += "," + str(neighbor)
+                    old_cost = DistanceDist[neighbor]
+                    new_cost = DistanceDist[current_vertex] + distance
+                    if new_cost < old_cost:
+                        pq.put((new_cost, neighbor))
+                        DistanceDist[neighbor] = new_cost
+                        DistancePath[neighbor] = new_path
         return DistanceDist, DistancePath
+
 
 if __name__ == '__main__':
     ga = GraphAlgo()
     ga.load_from_json("C:\\Users\\Liavm\\Desktop\\Ex3\\data\\A5.json")
-    (dist,path)=ga.dikjestra(0)
+    (dist, path) = ga.dikjestra(0)
     print(path[2])
     ga.save_to_json("C:\\Users\\Liavm\\Desktop\\Ex3\\data\\out.json")
