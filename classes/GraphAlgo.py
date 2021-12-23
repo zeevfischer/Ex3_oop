@@ -10,11 +10,11 @@ from src.GraphAlgoInterface import GraphAlgoInterface
 
 
 class GraphAlgo(GraphAlgoInterface):
-    def __init__(self):
-        self.graph = DiGraph()
-
-    def __init__(self, g: DiGraph()):
-        self.graph = g
+    def __init__(self, *args):
+        if len(args) == 0:
+            self.graph = DiGraph()
+        if len(args) == 1:
+            self.graph = args[0]
 
     #
     # def __init__(self, g: DiGraph):
