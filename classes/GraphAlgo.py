@@ -2,14 +2,8 @@ import json
 import sys
 from queue import PriorityQueue
 from typing import List
-
 from matplotlib import pyplot as plt
-from matplotlib.widgets import TextBox
-
 from classes.DiGraph import DiGraph
-from classes.Edge import Edge
-from classes.Node import Node
-from classes.Location import Location
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
 
@@ -39,13 +33,16 @@ class GraphAlgo(GraphAlgoInterface):
             nodes = data["Nodes"]
             for v in nodes:
                 if dict(v).keys().__contains__('pos'):
-                    g.add_node(v["id"], v["pos"])
+                    loc = v["pos"].split(',')
+                    pos = (loc[0],loc[1],loc[2])
+                    g.add_node(v["id"], pos)
                 else:
                     g.add_node(v["id"], None)
             edges = data["Edges"]
             for e in edges:
                 g.add_edge(e["src"], e["dest"], e["w"])
             self.graph = g
+            file.close()
             return True
         except Exception:
             return False
@@ -59,7 +56,8 @@ class GraphAlgo(GraphAlgoInterface):
                 # if not b:
                 #     return False
                 key = v.get_key()
-                pos = v.get_pos()
+                loc = v.get_pos()#.split(',')
+                pos=str(loc.x)+","+str(loc.y)+","+str(loc.z)
                 node = {"id": key, "pos": pos}
                 Nodes.append(node)
 
@@ -72,8 +70,9 @@ class GraphAlgo(GraphAlgoInterface):
                 edge = {"src": src, "w": weight, "dest": dest}
                 Edges.append(edge)
             file = {"Edges": Edges, "Nodes": Nodes}
-            with open(file_name, 'w') as j:
+            with open(file_name, "w") as j:
                 json.dump(file, j)
+            # file_name.close()
             return True
 
         except Exception:
@@ -151,34 +150,6 @@ class GraphAlgo(GraphAlgoInterface):
                 maxSize = check
         return (maxId, maxSize)
 
-    def txt(text):
-        data = text.split(',')
-        # temp = eval(text)
-        id = data[0]
-        src = data[1]
-        dest = data[2]
-        pos = (src, dest, 0)
-        plt.plot(src, dest, markersize=4, marker='o', color='blue')
-
-    def add_Node_butten(self):
-        # globals().pop()
-        # creating room for txt
-        # plt.subplots_adjust(bottom=0.4)
-        # creating txt
-        print("presd")
-        # axbox = plt.axes([0.1, 0.05, 0.3, 0.075])
-        # text_box = TextBox(axbox, "data", textalignment="center",initial= "id,src,dest")
-
-        # plt.show()
-
-    def add_Node_butten_txt(self, id, pos: tuple):
-        self.graph.add_node(id, pos)
-
-        # self.graph.add_node(id,src,dest)
-        # x, y = src, dest
-        # plt.plot(x, y, markersize=4, marker='o', color='blue')
-        # plt.show()
-
     def plot_graph(self) -> None:
 
         fig, ax = plt.subplots()
@@ -188,8 +159,8 @@ class GraphAlgo(GraphAlgoInterface):
         for v in self.graph.Nodes.values():
             pos = v.pos.getpos()
             x, y = pos[0], pos[1]
-            plt.plot(x, y, markersize=4, marker='o', color='blue')
-            plt.text(x, y, str(v.id), color="red", fontsize=12)
+            plt.plot(float(x), float(y), markersize=4, marker='o', color='blue')
+            plt.text(float(x), float(y), str(v.id), color="red", fontsize=12)
         for E in self.graph.Edges.values():
             src = self.graph.Nodes.get(E.src)
             x_src = src.get_pos().getpos()[0]
@@ -198,19 +169,8 @@ class GraphAlgo(GraphAlgoInterface):
             dest = self.graph.Nodes.get(E.dest)
             x_dest = dest.get_pos().getpos()[0]
             y_dest = dest.get_pos().getpos()[1]
-            plt.annotate("", xy=(x_src, y_src), xytext=(x_dest, y_dest), arrowprops=dict(arrowstyle="<-"))
+            plt.annotate("", xy=(float(x_src), float(y_src)), xytext=(float(x_dest), float(y_dest)), arrowprops=dict(arrowstyle="<-"))
 
-        # axbox = plt.axes([0.1, 0.05, 0.3, 0.075])
-        # text_box = TextBox(axbox, "data", textalignment="center", initial="enter id,src,dest")
-        # text_box.on_submit(GraphAlgo.txt)
-        #
-        # # # created the button
-        # # location_prev = plt.axes([0.68, 0.05, 0.12, 0.075])
-        # # B1 = Button(location_prev, 'add node')
-        # # # when pressed
-        # # B1.on_clicked(GraphAlgo.add_Node_butten)
-        # # location_next = plt.axes([0.81, 0.05, 0.1, 0.075])
-        # # Bnext = Button(location_next, 'Next')
         plt.show()
 
     def dikjestra(self, src: int) -> (list, list):
@@ -293,8 +253,14 @@ if __name__ == '__main__':
     list2 =[0,1,2,3,4,5]
     algo = GraphAlgo(graph)
     # algo.plot_graph()
-    print(algo.TSP(list2))
-    print(algo.centerPoint())
+    # a=algo.graph.v_size()
+    # print(algo.graph.v_size())
+    algo.save_to_json("../data/test_on.json")
+    algo2 =GraphAlgo()
+    # algo2.load_from_json("../data/test_on.json")
+    # algo2.plot_graph()
+    # print(algo.TSP(list2))
+    # print(algo.centerPoint())
 
 
 

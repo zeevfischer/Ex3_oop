@@ -14,10 +14,12 @@ class DiGraph(GraphInterface):
         self.mc = 0
 
     def v_size(self) -> int:
-        return len(self.Nodes)
+        length = len(self.Nodes.values())
+        return length
 
     def e_size(self) -> int:
-        return len(self.Edges)
+        length = len(self.Edges.values())
+        return length
 
     def get_all_v(self) -> dict:
         return self.Nodes.keys()
@@ -77,8 +79,9 @@ class DiGraph(GraphInterface):
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if self.Nodes.get(node_id) == None:
             if(pos == None):
-                num = random.randint(1,10)
-                pos=(num,num,num)
+                num1 = random.random() + 35
+                num2 = random.random() + 32
+                pos=(num1,num2,0)
             self.Nodes[node_id] = Node(node_id , pos)
             self.mc += 1
             return True
@@ -96,7 +99,7 @@ class DiGraph(GraphInterface):
     def remove_node(self, node_id: int) -> bool:
         if self.Nodes.get(node_id) != None:
             # this pops the Node out of the dict Node
-            node_removed = Node(self.Nodes.pop(node_id))
+            node_removed = self.Nodes.pop(node_id)
 
             # now we deall with the Edge
             for key in node_removed.into:
@@ -104,14 +107,14 @@ class DiGraph(GraphInterface):
                 tempKey = str(key) + "," + str(node_id)
                 self.Edges.pop(tempKey)
                 # this will remove node_id from list out of Node Key
-                Node(self.Nodes.get(key)).out.remove(node_id)
+                self.Nodes.get(key).out.remove(node_id)
 
             for key in node_removed.out:
                 # this removes all the Edges connected to that Node
                 tempKey = str(node_id) + "," + str(key)
                 self.Edges.pop(tempKey)
                 # this will remove node_id from list into of Node Key
-                Node(self.Nodes.get(key)).into.remove(node_id)
+                self.Nodes.get(key).into.remove(node_id)
 
             return True
         else:
