@@ -143,3 +143,7 @@ class DiGraph(GraphInterface):
         @return: True if the edge was removed successfully, False o.w.
         Note: If such an edge does not exists the function will do nothing
         """
+
+        def __repr__(self):
+            str="|V|" + str(len(self.Nodes.keys))
+            return str
