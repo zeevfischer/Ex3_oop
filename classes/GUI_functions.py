@@ -11,7 +11,7 @@ def add_node() -> (int,tuple):
     base_font =pygame.font.Font(None,32)
     head_font = pygame.font.Font(None,40)
 
-    text_id = ''
+    text_id =''
     text_x = ''
     text_y = ''
     text_z = ''
