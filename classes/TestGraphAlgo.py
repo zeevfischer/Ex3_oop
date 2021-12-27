@@ -76,6 +76,22 @@ class TestAlgo(unittest.TestCase):
         self.assertTrue(int(temp.pos.y) == 4)
 
 
-    # def test_shortestPath(self):
-    #
-    # def test_center(self):
+    def test_shortestPath(self):
+        algo = GraphAlgo()
+        algo.load_from_json("../data/test_on.json")
+        path_0_to_3=['0','1','4','3']
+        sum , path =algo.shortest_path(0,3)
+        val_path = path.split(",")
+
+
+        self.assertEqual(sum,82)
+        self.assertEqual(path_0_to_3[0], val_path[0])
+        self.assertEqual(path_0_to_3[1], val_path[1])
+        self.assertEqual(path_0_to_3[2], val_path[2])
+        self.assertEqual(path_0_to_3[3], val_path[3])
+
+    def test_center(self):
+        algo = GraphAlgo()
+        algo.load_from_json("../data/test_on.json")
+        center = algo.centerPoint()
+        self.assertEqual(center,(4,60))

@@ -3,6 +3,8 @@ import sys
 from queue import PriorityQueue
 from typing import List
 from matplotlib import pyplot as plt
+
+from classes import GUI
 from classes.DiGraph import DiGraph
 from src.GraphAlgoInterface import GraphAlgoInterface
 from src.GraphInterface import GraphInterface
@@ -113,7 +115,7 @@ class GraphAlgo(GraphAlgoInterface):
             # temp path is a String so we need to change it
             # first to a list of Strings
             # then to int list
-            change1 = temp_path.split('->')
+            change1 = temp_path.split(',')
             change2 = map(int,change1)
             change3 = list(change2)
 
@@ -151,27 +153,30 @@ class GraphAlgo(GraphAlgoInterface):
         return (maxId, maxSize)
 
     def plot_graph(self) -> None:
+        GUI.Gui(self)
 
-        fig, ax = plt.subplots()
-        # created rome for the button
-        fig.subplots_adjust(bottom=0.2)
-        # plt.axes([0,0,100,100])
-        for v in self.graph.Nodes.values():
-            pos = v.pos.getpos()
-            x, y = pos[0], pos[1]
-            plt.plot(float(x), float(y), markersize=4, marker='o', color='blue')
-            plt.text(float(x), float(y), str(v.id), color="red", fontsize=12)
-        for E in self.graph.Edges.values():
-            src = self.graph.Nodes.get(E.src)
-            x_src = src.get_pos().getpos()[0]
-            y_src = src.get_pos().getpos()[1]
-
-            dest = self.graph.Nodes.get(E.dest)
-            x_dest = dest.get_pos().getpos()[0]
-            y_dest = dest.get_pos().getpos()[1]
-            plt.annotate("", xy=(float(x_src), float(y_src)), xytext=(float(x_dest), float(y_dest)), arrowprops=dict(arrowstyle="<-"))
-
-        plt.show()
+    # def plot_graph(self) -> None:
+    #
+    #     fig, ax = plt.subplots()
+    #     # created rome for the button
+    #     fig.subplots_adjust(bottom=0.2)
+    #     # plt.axes([0,0,100,100])
+    #     for v in self.graph.Nodes.values():
+    #         pos = v.pos.getpos()
+    #         x, y = pos[0], pos[1]
+    #         plt.plot(float(x), float(y), markersize=4, marker='o', color='blue')
+    #         plt.text(float(x), float(y), str(v.id), color="red", fontsize=12)
+    #     for E in self.graph.Edges.values():
+    #         src = self.graph.Nodes.get(E.src)
+    #         x_src = src.get_pos().getpos()[0]
+    #         y_src = src.get_pos().getpos()[1]
+    #
+    #         dest = self.graph.Nodes.get(E.dest)
+    #         x_dest = dest.get_pos().getpos()[0]
+    #         y_dest = dest.get_pos().getpos()[1]
+    #         plt.annotate("", xy=(float(x_src), float(y_src)), xytext=(float(x_dest), float(y_dest)), arrowprops=dict(arrowstyle="<-"))
+    #
+    #     plt.show()
 
     def dikjestra(self, src: int) -> (list, list):
         visited = {v.get_key(): False for v in (self.graph.Nodes.values())}
@@ -192,7 +197,7 @@ class GraphAlgo(GraphAlgoInterface):
                 distance = self.graph.Edges[key].getWeight()
                 if not visited[neighbor]:
                     new_path = DistancePath[current_vertex]
-                    new_path += "->" + str(neighbor)
+                    new_path += "," + str(neighbor)
                     old_cost = DistanceDist[neighbor]
                     new_cost = DistanceDist[current_vertex] + distance
                     if new_cost < old_cost:
@@ -252,11 +257,11 @@ if __name__ == '__main__':
     graph.add_edge(4, 5, 20)
     list2 =[0,1,2,3,4,5]
     algo = GraphAlgo(graph)
-    # algo.plot_graph()
+    algo.plot_graph()
     # a=algo.graph.v_size()
     # print(algo.graph.v_size())
-    algo.save_to_json("../data/test_on.json")
-    algo2 =GraphAlgo()
+    # algo.save_to_json("../data/test_on.json")
+    # algo2 =GraphAlgo()
     # algo2.load_from_json("../data/test_on.json")
     # algo2.plot_graph()
     # print(algo.TSP(list2))
