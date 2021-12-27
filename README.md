@@ -22,7 +22,7 @@ by removing a Node we also need to remove the Edges that leave this Node and tha
 
 ### **_DirectedWeightedGrapgAlgo_**  
 #### Complex Functions:
-**shortstopDist , shortstop:**    
+**shortestPath :**
 for these functions we first Dijkstra's algorithm (more information will be given via link) basically Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph and on the way we add a list to represent the shortest path  
 
 **center:**  
