@@ -1,8 +1,10 @@
 from classes.Location import Location
+
+
 class Node:
-    def __init__(self,id , pos: tuple) -> None:
-        #x,y,z = pos
-        #self.pos = Location(x,y,z)
+    def __init__(self, id, pos: tuple) -> None:
+        # x,y,z = pos
+        # self.pos = Location(x,y,z)
         self.pos = Location(pos)
         self.id = id
 
@@ -16,14 +18,18 @@ class Node:
         # this is a list of dest where i am the src to
         self.out = []
 
-    # def __repr__(self) -> str:
-    #     return f"id:{self.id} pos:{self.pos}"
+    def __repr__(self) -> str:
+        return str(self.id)+": |edges out| "+str(len(self.out))+" |edges in| "+str(len(self.into))
+
+
     def get_into(self):
-         return self.into
+        return self.into
 
     def get_out(self):
-         return self.out
+        return self.out
+
     def get_key(self):
         return self.id
+
     def get_pos(self):
         return self.pos

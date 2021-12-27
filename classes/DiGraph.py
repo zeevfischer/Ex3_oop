@@ -8,27 +8,35 @@ from classes.Edge import Edge
 class DiGraph(GraphInterface):
     def __init__(self):
         # id = int ,value = Node/class
-        self.Nodes={}
+        self.Nodes = {}
         # id = "src,dest" , value Edge/class
-        self.Edges={}
+        self.Edges = {}
         self.mc = 0
 
+    def __repr__(self):
+        return "graph: |V|=" + str(self.v_size()) + " , |E|=" + str(self.e_size())
+
     def v_size(self) -> int:
-        return len(self.Nodes)
+        length = len(self.Nodes.values())
+        return length
 
     def e_size(self) -> int:
-        return len(self.Edges)
+        length = len(self.Edges.values())
+        return length
 
     def get_all_v(self) -> dict:
-        return self.Nodes.keys()
+        return self.Nodes
+
     # for evey Node there is a list of Nodes comming in and out of it
     # while running over the list i take the Node nedded and add it to my dict
     def all_in_edges_of_node(self, id1: int) -> dict:
         dict = {}
+
         node = self.Nodes.get(id1)
+        node.into
         for Key in node.into:
             tempKey = str(Key) + "," + str(id1)
-            edge = Edge(self.Edges.get(tempKey))
+            edge = self.Edges.get(tempKey)
             dict[Key] = edge.weight
 
         return dict
@@ -40,8 +48,8 @@ class DiGraph(GraphInterface):
         dict = {}
         node = self.Nodes.get(id1)
         for Key in node.out:
-            tempKey = str(id1)+","+str(Key)
-            edge = Edge(self.Edges.get(tempKey))
+            tempKey = str(id1) + "," + str(Key)
+            edge = self.Edges.get(tempKey)
             dict[Key] = edge.weight
 
         return dict
@@ -53,10 +61,10 @@ class DiGraph(GraphInterface):
         return self.mc
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
-        key = str(id1)+","+str(id2)
+        key = str(id1) + "," + str(id2)
         if self.Edges.get(key) == None and self.Nodes.get(id1) != None and self.Nodes.get(id2) != None:
             # this will add to Edges
-            self.Edges[key] = Edge(id1,id2,weight)
+            self.Edges[key] = Edge(id1, id2, weight)
             # this will add to the lists "into" and "out" of id1 and id2
             self.Nodes.get(id1).out.append(id2)
             self.Nodes.get(id2).into.append(id1)
@@ -73,13 +81,15 @@ class DiGraph(GraphInterface):
         @return: True if the edge was added successfully, False o.w.
         Note: If the edge already exists or one of the nodes dose not exists the functions will do nothing
         """
+
     import random
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if self.Nodes.get(node_id) == None:
-            if(pos == None):
-                num = random.randint(1,10)
-                pos=(num,num,num)
-            self.Nodes[node_id] = Node(node_id , pos)
+            if (pos == None):
+                num1 = random.random() + 35
+                num2 = random.random() + 32
+                pos = (num1, num2, 0)
+            self.Nodes[node_id] = Node(node_id, pos)
             self.mc += 1
             return True
         else:
@@ -96,7 +106,7 @@ class DiGraph(GraphInterface):
     def remove_node(self, node_id: int) -> bool:
         if self.Nodes.get(node_id) != None:
             # this pops the Node out of the dict Node
-            node_removed = Node(self.Nodes.pop(node_id))
+            node_removed = self.Nodes.pop(node_id)
 
             # now we deall with the Edge
             for key in node_removed.into:
@@ -104,14 +114,14 @@ class DiGraph(GraphInterface):
                 tempKey = str(key) + "," + str(node_id)
                 self.Edges.pop(tempKey)
                 # this will remove node_id from list out of Node Key
-                Node(self.Nodes.get(key)).out.remove(node_id)
+                self.Nodes.get(key).out.remove(node_id)
 
             for key in node_removed.out:
                 # this removes all the Edges connected to that Node
                 tempKey = str(node_id) + "," + str(key)
                 self.Edges.pop(tempKey)
                 # this will remove node_id from list into of Node Key
-                Node(self.Nodes.get(key)).into.remove(node_id)
+                self.Nodes.get(key).into.remove(node_id)
 
             return True
         else:
