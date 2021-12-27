@@ -6,7 +6,7 @@ Written by zeev fischer,eden mor and liav levi.
 following last weeks assignment this week was python implementing most of the algorithms from last week such a Dijkstra's algorithm getting paths on a graph and more but in python.  
 
 for more information on the comparison between the tew projects a wiki link is provided  
-https://github.com/zeevfischer/Ex3_oop.wiki.git  
+https://github.com/zeevfischer/Ex3_oop/wiki
 
 For starters we had tew interfaces to implement the following interfaces  
 * GraphInterface – represents the actual Graph 
