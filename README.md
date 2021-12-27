@@ -3,14 +3,11 @@
 ### **Explanation**
 ---
 Written by zeev fischer,eden mor and liav levi.  
-This project was all about graphs for starters what we hade to do is implement this following interfaces  
-* GeoLocation – the representation of a Node location 
-* NodeData – the representation of a Node(point) in the Graph
-* EdgeData – represent a directed weighted connection between tew Nodes(points) in the Graph
-* DirectedWeightedGrapg – represents the actual Graph 
-* DirectedWeightedGraphAlgorithms – this interface has all sorts of function that can be implemented on a graph  
- 
-for the first three there is not much to explain Now for DirectedWeightedGrapg and DirectedWeightedGraphAlgorithms there is more thought that goes in to implementing these interfaces.  
+following last weeks assignment this week was python implementing most of the algorithms from last week such a Dijkstra's algorithm getting paths on a graph and more but in python.  
+For starters we hade tew interfaces to implement the following interfaces  
+* GraphInterface – represents the actual Graph 
+* GraphAlgoInterface – this interface has all sorts of function that can be implemented on a graph  
+A more detaild uml of all the classes will be shown at the bottom 
 
 ### **_DirectedWeightedGrapg_**  
 #### Complex Functions:  
@@ -18,7 +15,7 @@ for the first three there is not much to explain Now for DirectedWeightedGrapg a
 **removeNode():**    
 by removing a Node we also need to remove the Edges that leave this Node and that are directed to it  
 
-### **_DirectedWeightedGrapg_**  
+### **_DirectedWeightedGrapgAlgo_**  
 #### Complex Functions:
 **shortestpathDist , shortestpath:**    
 for these functions we first implemented a fibonacciheap then we ran dijksres algorithm (more information will be given via link) basically dijksres algorithm is an algorithm for finding the shortest paths between nodes in a graph and on the way we add a list to represent the shortest path  
