@@ -1,4 +1,4 @@
-# # Directed Weighted Graph
+# Directed Weighted Graph
 
 ### **Explanation**
 ---
