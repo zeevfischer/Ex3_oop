@@ -75,7 +75,6 @@ class TestAlgo(unittest.TestCase):
         self.assertTrue(int(temp.pos.x) == 5)
         self.assertTrue(int(temp.pos.y) == 4)
 
-
     def test_shortestPath(self):
         algo = GraphAlgo()
         algo.load_from_json("../data/test_on.json")
@@ -95,3 +94,12 @@ class TestAlgo(unittest.TestCase):
         algo.load_from_json("../data/test_on.json")
         center = algo.centerPoint()
         self.assertEqual(center,(4,60))
+
+    def test_TSP(self):
+        algo = GraphAlgo()
+        algo.load_from_json("../data/test_on.json")
+        Tsp_res = [0,1,5,2,5,4,3]
+        TSP_run = [0,1,2,3,4,5]
+        path, sum = algo.TSP(TSP_run)
+        for val in range(len(Tsp_res)):
+            self.assertEqual(path[val],Tsp_res[val])
