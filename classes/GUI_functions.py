@@ -2,7 +2,7 @@ from typing import List
 import pygame
 from pygame import RESIZABLE
 
-
+# these function are the input for every button after closing each one the input will be returned to the main function
 def add_node() -> (int,tuple):
     pygame.init()
     clock =pygame.time.Clock()
@@ -543,74 +543,3 @@ def TSP()-> (List[int]):
         pygame.display.flip()
         clock.tick(60)
 
-if __name__ == '__main__':
-    # add_node
-    # print(print("sdf"))
-    print(TSP())
-
-
-
-
-
-
-
-
-
-
-
-from tkinter import *
-
-# window = Tk()
-# window.title('add node')
-# window.geometry('500x500')
-#
-# labal1 =Label(window,test = "enter id" ,font=('Arial',14))
-# labal1.grid(row = 0, column = 0, padx = 5, pady = 10)
-#
-# labal2 =Label(window,test = "pos = x,y,z" ,font=('Arial',14))
-# labal2.grid(row = 1, column = 0, padx = 5, pady = 10)
-#
-# id= IntVar()
-#
-# textbox1 = Entry(window,testvariable = id,font=('Arial',14))
-# textbox1.grid(row = 0, column = 1)
-#
-# textbox1 = Entry(window,testvariable = id,font=('Arial',14))
-# textbox1.grid(row = 1, column = 1)
-#
-# def submit():
-#     emtylabel.config(text = 'aldkjs')
-#
-#
-# button1 = Button(window,command = submit,test='submit',font=('Arial',14))
-# button1.grid(row = 2,column = 1,sticky=W)
-#
-# emtylabel =Label(window,font=('Arial',14))
-# emtylabel.grid(row = 2,column = 1, sticky =W)
-#
-# window.mainloop()
-
-
-
-
-
-
-
-
-# def com():
-#     c = b.get()
-#     laba2 = Label(test = c,font =20 ).pack()
-#
-#
-#
-# a= Tk()
-# a.title('window')
-# a.geometry('500x500+300+100')
-# b = StringVar()
-#
-# laba1 = Label(test = 'func to button',font = 30).pack()
-# button1 = Button(test='pres to print',command = com).pack()
-# test = Entry(textvaiable = b).pack()
-#
-#
-# a.mainloop()

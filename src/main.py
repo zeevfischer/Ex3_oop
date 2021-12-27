@@ -5,7 +5,7 @@ from classes.GraphAlgo import GraphAlgo
 def check():
     """
     Graph: |V|=4 , |E|=5
-    {0: 0: |edges out| 1 |edges in| 1,1: 1: |edges out| 3 |edges in| 1,2: 2: |edges out| 1 |edges in| 1,3: 3: |edges out| 0 |edges in| 2}
+    {0: 0: |edges out| 1 |edges in| 1, 1: 1: |edges out| 3 |edges in| 1, 2: 2: |edges out| 1 |edges in| 1, 3: 3: |edges out| 0 |edges in| 2}
     {0: 1}
     {0: 1.1, 2: 1.3, 3: 10}
     (3.4, [0, 1, 2, 3])
@@ -52,7 +52,7 @@ def check1():
        This function tests the naming (main methods of the GraphAlgo class, as defined in GraphAlgoInterface.
     :return:
     """
-    g_algo = GraphAlgo(None)  # init an empty graph - for the GraphAlgo
+    g_algo = GraphAlgo()  # init an empty graph - for the GraphAlgo
     file = "../data/T0.json"
     g_algo.load_from_json(file)  # init a GraphAlgo from a json file
     print(g_algo.shortest_path(0, 3))
@@ -105,8 +105,11 @@ def check3():
 
 
 if __name__ == '__main__':
-    # g_algo = GraphAlgo()
-    # file = '../data/A5.json'
-    # g_algo.load_from_json(file)
-    # g_algo.plot_graph()
     check()
+    # g_algo = GraphAlgo()
+    # file = "../data_compear/G2.json"
+    # # file = "../data/test_on.json"
+    # g_algo.load_from_json(file)
+    # # path, sum = g_algo.TSP([0, 1, 2, 3, 4, 5])
+    # g_algo.plot_graph()
+

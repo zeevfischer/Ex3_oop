@@ -27,9 +27,12 @@ min_y = sys.float_info.max
 max_x = 0
 max_y = 0
 
-
 def min_max(graph):
     global min_x, min_y, max_x, max_y
+    min_x = sys.float_info.max
+    min_y = sys.float_info.max
+    max_x = 0
+    max_y = 0
     for node in graph.Nodes.values():
         if float(node.pos.x) < float(min_x):
             min_x = node.pos.x
@@ -134,12 +137,17 @@ class Gui:
         for edge in self.algo.graph.Edges.values():
             src = edge.src
             dest = edge.dest
+            w = edge.weight
             src_x = self.my_scale(self.algo.graph.Nodes.get(src).pos.x, x=True)
             src_y = self.my_scale(self.algo.graph.Nodes.get(src).pos.y, y=True)
             dest_x = self.my_scale(self.algo.graph.Nodes.get(dest).pos.x, x=True)
             dest_y = self.my_scale(self.algo.graph.Nodes.get(dest).pos.y, y=True)
 
             Gui.arrow(self, (src_x, src_y), (dest_x, dest_y), 25, 6, color=(63, 97, 235))
+
+            FONT = pygame.font.SysFont('comicsans', 10)
+            text_surface = FONT.render(str(round(w, 2)), True, (0, 0, 0))
+            self.screen.blit(text_surface, ((src_x * 0.25 + dest_x * 0.75), (src_y * 0.25 + dest_y * 0.75)))
 
         for src in self.algo.graph.Nodes.values():
             x = self.my_scale(src.pos.x, x=True)

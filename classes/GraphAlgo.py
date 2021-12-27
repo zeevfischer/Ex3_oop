@@ -50,18 +50,13 @@ class GraphAlgo(GraphAlgoInterface):
             Nodes = []
             Edges = []
             for v in self.graph.Nodes.values():
-                # b = isinstance(v, type(Node))
-                # if not b:
-                #     return False
                 key = v.get_key()
-                loc = v.get_pos()#.split(',')
+                loc = v.get_pos()
                 pos=str(loc.x)+","+str(loc.y)+","+str(loc.z)
                 node = {"id": key, "pos": pos}
                 Nodes.append(node)
 
             for e in self.graph.Edges.values():
-                # if not isinstance(v, Edge):
-                #     return False
                 src = e.getSrc()
                 weight = e.getWeight()
                 dest = e.getDest()
@@ -70,7 +65,6 @@ class GraphAlgo(GraphAlgoInterface):
             file = {"Edges": Edges, "Nodes": Nodes}
             with open(file_name, "w") as j:
                 json.dump(file, j)
-            # file_name.close()
             return True
 
         except Exception:
@@ -113,13 +107,7 @@ class GraphAlgo(GraphAlgoInterface):
                     id_short = city
             dist, temp_path = GraphAlgo.shortest_path(self,cur_city,id_short)
             total_dist += dist
-            # temp path is a String so we need to change it
-            # first to a list of Strings
-            # then to int list
             change1 = temp_path
-            #change2 = map(int,change1)
-            #change3 = list(change2)
-
             change1.pop(0)
             while len(change1) != 0:
                 tsp_path.append(change1.pop(0))
@@ -175,7 +163,6 @@ class GraphAlgo(GraphAlgoInterface):
     #         x_dest = dest.get_pos().getpos()[0]
     #         y_dest = dest.get_pos().getpos()[1]
     #         plt.annotate("", xy=(float(x_src), float(y_src)), xytext=(float(x_dest), float(y_dest)), arrowprops=dict(arrowstyle="<-"))
-    #
     #     plt.show()
     def dikjestra(self, src: int) -> (list, list):
         visited = {v.get_key(): False for v in (self.graph.Nodes.values())}
