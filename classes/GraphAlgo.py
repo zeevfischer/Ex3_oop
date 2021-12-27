@@ -78,7 +78,13 @@ class GraphAlgo(GraphAlgoInterface):
 
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         (dist, path) = self.dikjestra(id1)
-        return (dist[id2], path[id2])
+        p=[]
+        k=path[id2].split(',')
+        if k == [""]:
+            return dist[id2], p
+        for i in k:
+            p.append(int(i))
+        return dist[id2], p
 
     def TSP(self, node_lst: List[int]) -> (List[int], float):
         # this is a copy of the citiys to run on and the path the tsp will go in to
@@ -110,17 +116,17 @@ class GraphAlgo(GraphAlgoInterface):
             # temp path is a String so we need to change it
             # first to a list of Strings
             # then to int list
-            change1 = temp_path.split(',')
-            change2 = map(int,change1)
-            change3 = list(change2)
+            change1 = temp_path
+            #change2 = map(int,change1)
+            #change3 = list(change2)
 
-            change3.pop(0)
-            while len(change3) != 0:
-                tsp_path.append(change3.pop(0))
+            change1.pop(0)
+            while len(change1) != 0:
+                tsp_path.append(change1.pop(0))
             cur_city = id_short
             copy_list.remove(id_short)
 
-        if len(change3)==1:
+        if len(change1)==1:
             return None
         else:
             return tsp_path , total_dist

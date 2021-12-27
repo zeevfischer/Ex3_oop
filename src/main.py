@@ -5,7 +5,7 @@ from classes.GraphAlgo import GraphAlgo
 def check():
     """
     Graph: |V|=4 , |E|=5
-    {0: 0: |edges out| 1 |edges in| 1, 1: 1: |edges out| 3 |edges in| 1, 2: 2: |edges out| 1 |edges in| 1, 3: 3: |edges out| 0 |edges in| 2}
+    {0: 0: |edges out| 1 |edges in| 1,1: 1: |edges out| 3 |edges in| 1,2: 2: |edges out| 1 |edges in| 1,3: 3: |edges out| 0 |edges in| 2}
     {0: 1}
     {0: 1.1, 2: 1.3, 3: 10}
     (3.4, [0, 1, 2, 3])
@@ -18,8 +18,8 @@ def check():
     (7, 6.806805834715163)
     ([1,3,4,2],3.5)
     """
-    # check0()
-    # check1()
+    check0()
+    check1()
     check2()
 
 
@@ -105,9 +105,8 @@ def check3():
 
 
 if __name__ == '__main__':
-    g_algo = GraphAlgo()
-    file = '../data/A5.json'
-    g_algo.load_from_json(file)
-    g_algo.plot_graph()
-
-    # check()
+    # g_algo = GraphAlgo()
+    # file = '../data/A5.json'
+    # g_algo.load_from_json(file)
+    # g_algo.plot_graph()
+    check()

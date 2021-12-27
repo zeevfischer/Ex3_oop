@@ -4,7 +4,7 @@
 ---
 Written by zeev fischer,eden mor and liav levi.  
 following last weeks assignment this week was python implementing most of the algorithms from last week such a Dijkstra's algorithm getting paths on a graph and more but in python.  
-For starters we hade tew interfaces to implement the following interfaces  
+For starters we had tew interfaces to implement the following interfaces  
 * GraphInterface – represents the actual Graph 
 * GraphAlgoInterface – this interface has all sorts of function that can be implemented on a graph  
 A more detaild uml of all the classes will be shown at the bottom 
